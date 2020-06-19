@@ -1,0 +1,4 @@
+-- !Ups
+ALTER TABLE User CHANGE COLUMN confirmed confirmed BOOLEAN NOT NULL DEFAULT 0;
+-- !Downs
+ALTER TABLE User CHANGE COLUMN confirmed confirmed BOOLEAN DEFAULT 0;

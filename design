@@ -1,0 +1,20 @@
+Login page (input name)
+create user page
+confirm-email page
+Game LIst (choose or create new)
+Create New (Raod List, dropdown for ROad, Home, Day, (default today), Home Park (default tteam's park) geo location (default team's geo)
+Game Start, rolls for weather main screen for other player to take a team
+starting pitcher selection (either one or both)
+lineup selection one or both
+game shows current situation (batter/pitcher/runners),
+     prompt for infield/hold, iw, reliever, defensive change
+     prompt for bunt, steal/hit and run, pinch hitter, pinch runner
+     resolve all dice rolls
+          coaches choice advancement (with safe on trail runners)
+          defence decides where to make play
+          resolve any extra advancement
+
+* Automatically goes to releiver/defense change when half inning starts without full lineup.
+
+
+

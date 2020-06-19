@@ -1,0 +1,16 @@
+
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /                           controllers.FrontendController.index
+POST    /api/login                  controllers.LoginController.processLoginAttempt
+POST    /api/signup                 controllers.LoginController.processSignupAttempt
+POST    /api/confirm                controllers.LoginController.processConfirmation
+POST    /api/logout                 controllers.AuthenticatedController.logout
+GET     /api/games                  controllers.SetupController.showGameList
+GET     /api/create-game            controllers.SetupController.createGame
+POST    /api/new-game               controllers.SetupController.newGame
+GET     /assets/*file               controllers.FrontendController.assetOrDefault(file)
