@@ -1,5 +1,4 @@
 package models.schema
-
 // AUTO-GENERATED Slick data model
 /** Stand-alone Slick data model for immediate use */
 object Tables extends {
@@ -14,7 +13,7 @@ trait Tables {
   import slick.jdbc.{GetResult => GR}
 
   /** DDL for all tables. Call .create to execute. */
-  lazy val schema: profile.SchemaDescription = Array(Bunting.schema, Cloudcover.schema, Defense.schema, Distance.schema, Fenceheight.schema, Game.schema, Geographiclocation.schema, Park.schema, Parkeffect.schema, Pitcher.schema, Player.schema, Precipitation.schema, Resulttemplate.schema, Roster.schema, Team.schema, Temperature.schema, User.schema, UserConfirmation.schema, Wildrating.schema, Wind.schema).reduceLeft(_ ++ _)
+  lazy val schema: profile.SchemaDescription = Array(Bunting.schema, CloudCover.schema, Defense.schema, Distance.schema, FenceHeight.schema, Game.schema, GeographicLocation.schema, Park.schema, ParkEffect.schema, Pitcher.schema, Player.schema, PlayEvolutions.schema, Precipitation.schema, ResultTemplate.schema, Roster.schema, Team.schema, Temperature.schema, User.schema, UserConfirmation.schema, WildRating.schema, Wind.schema).reduceLeft(_ ++ _)
   @deprecated("Use .schema instead of .ddl", "3.0")
   def ddl = schema
 
@@ -53,24 +52,24 @@ trait Tables {
   /** Collection-like TableQuery object for table Bunting */
   lazy val Bunting = new TableQuery(tag => new Bunting(tag))
 
-  /** Entity class storing rows of table Cloudcover
+  /** Entity class storing rows of table CloudCover
    *  @param cloudCoverId Database column cloud_cover_id SqlType(INT), AutoInc, PrimaryKey
    *  @param geographicLocationId Database column geographic_location_id SqlType(INT)
    *  @param gameMonth Database column game_month SqlType(ENUM), Length(9,false)
    *  @param cover Database column cover SqlType(ENUM), Length(13,false), Default(None)
    *  @param rank Database column rank SqlType(INT)
    *  @param frequency Database column frequency SqlType(INT) */
-  case class CloudcoverRow(cloudCoverId: Int, geographicLocationId: Int, gameMonth: String, cover: Option[String] = None, rank: Int, frequency: Int)
-  /** GetResult implicit for fetching CloudcoverRow objects using plain SQL queries */
-  implicit def GetResultCloudcoverRow(implicit e0: GR[Int], e1: GR[String], e2: GR[Option[String]]): GR[CloudcoverRow] = GR{
+  case class CloudCoverRow(cloudCoverId: Int, geographicLocationId: Int, gameMonth: String, cover: Option[String] = None, rank: Int, frequency: Int)
+  /** GetResult implicit for fetching CloudCoverRow objects using plain SQL queries */
+  implicit def GetResultCloudCoverRow(implicit e0: GR[Int], e1: GR[String], e2: GR[Option[String]]): GR[CloudCoverRow] = GR{
     prs => import prs._
-    CloudcoverRow.tupled((<<[Int], <<[Int], <<[String], <<?[String], <<[Int], <<[Int]))
+    CloudCoverRow.tupled((<<[Int], <<[Int], <<[String], <<?[String], <<[Int], <<[Int]))
   }
   /** Table description of table CloudCover. Objects of this class serve as prototypes for rows in queries. */
-  class Cloudcover(_tableTag: Tag) extends profile.api.Table[CloudcoverRow](_tableTag, Some("IblGame"), "CloudCover") {
-    def * = (cloudCoverId, geographicLocationId, gameMonth, cover, rank, frequency) <> (CloudcoverRow.tupled, CloudcoverRow.unapply)
+  class CloudCover(_tableTag: Tag) extends profile.api.Table[CloudCoverRow](_tableTag, Some("IblGame"), "CloudCover") {
+    def * = (cloudCoverId, geographicLocationId, gameMonth, cover, rank, frequency) <> (CloudCoverRow.tupled, CloudCoverRow.unapply)
     /** Maps whole row to an option. Useful for outer joins. */
-    def ? = ((Rep.Some(cloudCoverId), Rep.Some(geographicLocationId), Rep.Some(gameMonth), cover, Rep.Some(rank), Rep.Some(frequency))).shaped.<>({r=>import r._; _1.map(_=> CloudcoverRow.tupled((_1.get, _2.get, _3.get, _4, _5.get, _6.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
+    def ? = ((Rep.Some(cloudCoverId), Rep.Some(geographicLocationId), Rep.Some(gameMonth), cover, Rep.Some(rank), Rep.Some(frequency))).shaped.<>({r=>import r._; _1.map(_=> CloudCoverRow.tupled((_1.get, _2.get, _3.get, _4, _5.get, _6.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
 
     /** Database column cloud_cover_id SqlType(INT), AutoInc, PrimaryKey */
     val cloudCoverId: Rep[Int] = column[Int]("cloud_cover_id", O.AutoInc, O.PrimaryKey)
@@ -90,8 +89,8 @@ trait Tables {
     /** Index over (geographicLocationId,gameMonth,rank) (database name loc_month_ordering) */
     val index2 = index("loc_month_ordering", (geographicLocationId, gameMonth, rank))
   }
-  /** Collection-like TableQuery object for table Cloudcover */
-  lazy val Cloudcover = new TableQuery(tag => new Cloudcover(tag))
+  /** Collection-like TableQuery object for table CloudCover */
+  lazy val CloudCover = new TableQuery(tag => new CloudCover(tag))
 
   /** Entity class storing rows of table Defense
    *  @param defenseId Database column defense_id SqlType(INT), AutoInc, PrimaryKey
@@ -178,22 +177,22 @@ trait Tables {
   /** Collection-like TableQuery object for table Distance */
   lazy val Distance = new TableQuery(tag => new Distance(tag))
 
-  /** Entity class storing rows of table Fenceheight
+  /** Entity class storing rows of table FenceHeight
    *  @param fenceHeightId Database column fence_height_id SqlType(INT), AutoInc, PrimaryKey
    *  @param parkId Database column park_id SqlType(INT)
    *  @param location Database column location SqlType(ENUM), Length(4,false), Default(None)
    *  @param fenceHeight Database column fence_height SqlType(INT) */
-  case class FenceheightRow(fenceHeightId: Int, parkId: Int, location: Option[String] = None, fenceHeight: Int)
-  /** GetResult implicit for fetching FenceheightRow objects using plain SQL queries */
-  implicit def GetResultFenceheightRow(implicit e0: GR[Int], e1: GR[Option[String]]): GR[FenceheightRow] = GR{
+  case class FenceHeightRow(fenceHeightId: Int, parkId: Int, location: Option[String] = None, fenceHeight: Int)
+  /** GetResult implicit for fetching FenceHeightRow objects using plain SQL queries */
+  implicit def GetResultFenceHeightRow(implicit e0: GR[Int], e1: GR[Option[String]]): GR[FenceHeightRow] = GR{
     prs => import prs._
-    FenceheightRow.tupled((<<[Int], <<[Int], <<?[String], <<[Int]))
+    FenceHeightRow.tupled((<<[Int], <<[Int], <<?[String], <<[Int]))
   }
   /** Table description of table FenceHeight. Objects of this class serve as prototypes for rows in queries. */
-  class Fenceheight(_tableTag: Tag) extends profile.api.Table[FenceheightRow](_tableTag, Some("IblGame"), "FenceHeight") {
-    def * = (fenceHeightId, parkId, location, fenceHeight) <> (FenceheightRow.tupled, FenceheightRow.unapply)
+  class FenceHeight(_tableTag: Tag) extends profile.api.Table[FenceHeightRow](_tableTag, Some("IblGame"), "FenceHeight") {
+    def * = (fenceHeightId, parkId, location, fenceHeight) <> (FenceHeightRow.tupled, FenceHeightRow.unapply)
     /** Maps whole row to an option. Useful for outer joins. */
-    def ? = ((Rep.Some(fenceHeightId), Rep.Some(parkId), location, Rep.Some(fenceHeight))).shaped.<>({r=>import r._; _1.map(_=> FenceheightRow.tupled((_1.get, _2.get, _3, _4.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
+    def ? = ((Rep.Some(fenceHeightId), Rep.Some(parkId), location, Rep.Some(fenceHeight))).shaped.<>({r=>import r._; _1.map(_=> FenceHeightRow.tupled((_1.get, _2.get, _3, _4.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
 
     /** Database column fence_height_id SqlType(INT), AutoInc, PrimaryKey */
     val fenceHeightId: Rep[Int] = column[Int]("fence_height_id", O.AutoInc, O.PrimaryKey)
@@ -207,8 +206,8 @@ trait Tables {
     /** Uniqueness Index over (parkId,fenceHeight,location) (database name park_fence_height_location) */
     val index1 = index("park_fence_height_location", (parkId, fenceHeight, location), unique=true)
   }
-  /** Collection-like TableQuery object for table Fenceheight */
-  lazy val Fenceheight = new TableQuery(tag => new Fenceheight(tag))
+  /** Collection-like TableQuery object for table FenceHeight */
+  lazy val FenceHeight = new TableQuery(tag => new FenceHeight(tag))
 
   /** Entity class storing rows of table Game
    *  @param gameId Database column game_id SqlType(INT), AutoInc, PrimaryKey
@@ -266,28 +265,28 @@ trait Tables {
   /** Collection-like TableQuery object for table Game */
   lazy val Game = new TableQuery(tag => new Game(tag))
 
-  /** Entity class storing rows of table Geographiclocation
+  /** Entity class storing rows of table GeographicLocation
    *  @param geographicLocationId Database column geographic_location_id SqlType(INT), AutoInc, PrimaryKey
    *  @param name Database column name SqlType(VARCHAR), Length(100,true) */
-  case class GeographiclocationRow(geographicLocationId: Int, name: String)
-  /** GetResult implicit for fetching GeographiclocationRow objects using plain SQL queries */
-  implicit def GetResultGeographiclocationRow(implicit e0: GR[Int], e1: GR[String]): GR[GeographiclocationRow] = GR{
+  case class GeographicLocationRow(geographicLocationId: Int, name: String)
+  /** GetResult implicit for fetching GeographicLocationRow objects using plain SQL queries */
+  implicit def GetResultGeographicLocationRow(implicit e0: GR[Int], e1: GR[String]): GR[GeographicLocationRow] = GR{
     prs => import prs._
-    GeographiclocationRow.tupled((<<[Int], <<[String]))
+    GeographicLocationRow.tupled((<<[Int], <<[String]))
   }
   /** Table description of table GeographicLocation. Objects of this class serve as prototypes for rows in queries. */
-  class Geographiclocation(_tableTag: Tag) extends profile.api.Table[GeographiclocationRow](_tableTag, Some("IblGame"), "GeographicLocation") {
-    def * = (geographicLocationId, name) <> (GeographiclocationRow.tupled, GeographiclocationRow.unapply)
+  class GeographicLocation(_tableTag: Tag) extends profile.api.Table[GeographicLocationRow](_tableTag, Some("IblGame"), "GeographicLocation") {
+    def * = (geographicLocationId, name) <> (GeographicLocationRow.tupled, GeographicLocationRow.unapply)
     /** Maps whole row to an option. Useful for outer joins. */
-    def ? = ((Rep.Some(geographicLocationId), Rep.Some(name))).shaped.<>({r=>import r._; _1.map(_=> GeographiclocationRow.tupled((_1.get, _2.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
+    def ? = ((Rep.Some(geographicLocationId), Rep.Some(name))).shaped.<>({r=>import r._; _1.map(_=> GeographicLocationRow.tupled((_1.get, _2.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
 
     /** Database column geographic_location_id SqlType(INT), AutoInc, PrimaryKey */
     val geographicLocationId: Rep[Int] = column[Int]("geographic_location_id", O.AutoInc, O.PrimaryKey)
     /** Database column name SqlType(VARCHAR), Length(100,true) */
     val name: Rep[String] = column[String]("name", O.Length(100,varying=true))
   }
-  /** Collection-like TableQuery object for table Geographiclocation */
-  lazy val Geographiclocation = new TableQuery(tag => new Geographiclocation(tag))
+  /** Collection-like TableQuery object for table GeographicLocation */
+  lazy val GeographicLocation = new TableQuery(tag => new GeographicLocation(tag))
 
   /** Entity class storing rows of table Park
    *  @param parkId Database column park_id SqlType(INT), AutoInc, PrimaryKey
@@ -333,21 +332,21 @@ trait Tables {
   /** Collection-like TableQuery object for table Park */
   lazy val Park = new TableQuery(tag => new Park(tag))
 
-  /** Entity class storing rows of table Parkeffect
+  /** Entity class storing rows of table ParkEffect
    *  @param parkEffectId Database column park_effect_id SqlType(INT), AutoInc, PrimaryKey
    *  @param parkId Database column park_id SqlType(INT)
    *  @param effect Database column effect SqlType(ENUM), Length(9,false), Default(None) */
-  case class ParkeffectRow(parkEffectId: Int, parkId: Int, effect: Option[String] = None)
-  /** GetResult implicit for fetching ParkeffectRow objects using plain SQL queries */
-  implicit def GetResultParkeffectRow(implicit e0: GR[Int], e1: GR[Option[String]]): GR[ParkeffectRow] = GR{
+  case class ParkEffectRow(parkEffectId: Int, parkId: Int, effect: Option[String] = None)
+  /** GetResult implicit for fetching ParkEffectRow objects using plain SQL queries */
+  implicit def GetResultParkEffectRow(implicit e0: GR[Int], e1: GR[Option[String]]): GR[ParkEffectRow] = GR{
     prs => import prs._
-    ParkeffectRow.tupled((<<[Int], <<[Int], <<?[String]))
+    ParkEffectRow.tupled((<<[Int], <<[Int], <<?[String]))
   }
   /** Table description of table ParkEffect. Objects of this class serve as prototypes for rows in queries. */
-  class Parkeffect(_tableTag: Tag) extends profile.api.Table[ParkeffectRow](_tableTag, Some("IblGame"), "ParkEffect") {
-    def * = (parkEffectId, parkId, effect) <> (ParkeffectRow.tupled, ParkeffectRow.unapply)
+  class ParkEffect(_tableTag: Tag) extends profile.api.Table[ParkEffectRow](_tableTag, Some("IblGame"), "ParkEffect") {
+    def * = (parkEffectId, parkId, effect) <> (ParkEffectRow.tupled, ParkEffectRow.unapply)
     /** Maps whole row to an option. Useful for outer joins. */
-    def ? = ((Rep.Some(parkEffectId), Rep.Some(parkId), effect)).shaped.<>({r=>import r._; _1.map(_=> ParkeffectRow.tupled((_1.get, _2.get, _3)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
+    def ? = ((Rep.Some(parkEffectId), Rep.Some(parkId), effect)).shaped.<>({r=>import r._; _1.map(_=> ParkEffectRow.tupled((_1.get, _2.get, _3)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
 
     /** Database column park_effect_id SqlType(INT), AutoInc, PrimaryKey */
     val parkEffectId: Rep[Int] = column[Int]("park_effect_id", O.AutoInc, O.PrimaryKey)
@@ -359,8 +358,8 @@ trait Tables {
     /** Uniqueness Index over (parkId,effect) (database name park_effect) */
     val index1 = index("park_effect", (parkId, effect), unique=true)
   }
-  /** Collection-like TableQuery object for table Parkeffect */
-  lazy val Parkeffect = new TableQuery(tag => new Parkeffect(tag))
+  /** Collection-like TableQuery object for table ParkEffect */
+  lazy val ParkEffect = new TableQuery(tag => new ParkEffect(tag))
 
   /** Entity class storing rows of table Pitcher
    *  @param pitcherId Database column pitcher_id SqlType(INT), AutoInc, PrimaryKey
@@ -519,6 +518,44 @@ trait Tables {
   /** Collection-like TableQuery object for table Player */
   lazy val Player = new TableQuery(tag => new Player(tag))
 
+  /** Entity class storing rows of table PlayEvolutions
+   *  @param id Database column id SqlType(INT), PrimaryKey
+   *  @param hash Database column hash SqlType(VARCHAR), Length(255,true)
+   *  @param appliedAt Database column applied_at SqlType(TIMESTAMP)
+   *  @param applyScript Database column apply_script SqlType(MEDIUMTEXT), Length(16777215,true), Default(None)
+   *  @param revertScript Database column revert_script SqlType(MEDIUMTEXT), Length(16777215,true), Default(None)
+   *  @param state Database column state SqlType(VARCHAR), Length(255,true), Default(None)
+   *  @param lastProblem Database column last_problem SqlType(MEDIUMTEXT), Length(16777215,true), Default(None) */
+  case class PlayEvolutionsRow(id: Int, hash: String, appliedAt: java.sql.Timestamp, applyScript: Option[String] = None, revertScript: Option[String] = None, state: Option[String] = None, lastProblem: Option[String] = None)
+  /** GetResult implicit for fetching PlayEvolutionsRow objects using plain SQL queries */
+  implicit def GetResultPlayEvolutionsRow(implicit e0: GR[Int], e1: GR[String], e2: GR[java.sql.Timestamp], e3: GR[Option[String]]): GR[PlayEvolutionsRow] = GR{
+    prs => import prs._
+    PlayEvolutionsRow.tupled((<<[Int], <<[String], <<[java.sql.Timestamp], <<?[String], <<?[String], <<?[String], <<?[String]))
+  }
+  /** Table description of table play_evolutions. Objects of this class serve as prototypes for rows in queries. */
+  class PlayEvolutions(_tableTag: Tag) extends profile.api.Table[PlayEvolutionsRow](_tableTag, Some("IblGame"), "play_evolutions") {
+    def * = (id, hash, appliedAt, applyScript, revertScript, state, lastProblem) <> (PlayEvolutionsRow.tupled, PlayEvolutionsRow.unapply)
+    /** Maps whole row to an option. Useful for outer joins. */
+    def ? = ((Rep.Some(id), Rep.Some(hash), Rep.Some(appliedAt), applyScript, revertScript, state, lastProblem)).shaped.<>({r=>import r._; _1.map(_=> PlayEvolutionsRow.tupled((_1.get, _2.get, _3.get, _4, _5, _6, _7)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
+
+    /** Database column id SqlType(INT), PrimaryKey */
+    val id: Rep[Int] = column[Int]("id", O.PrimaryKey)
+    /** Database column hash SqlType(VARCHAR), Length(255,true) */
+    val hash: Rep[String] = column[String]("hash", O.Length(255,varying=true))
+    /** Database column applied_at SqlType(TIMESTAMP) */
+    val appliedAt: Rep[java.sql.Timestamp] = column[java.sql.Timestamp]("applied_at")
+    /** Database column apply_script SqlType(MEDIUMTEXT), Length(16777215,true), Default(None) */
+    val applyScript: Rep[Option[String]] = column[Option[String]]("apply_script", O.Length(16777215,varying=true), O.Default(None))
+    /** Database column revert_script SqlType(MEDIUMTEXT), Length(16777215,true), Default(None) */
+    val revertScript: Rep[Option[String]] = column[Option[String]]("revert_script", O.Length(16777215,varying=true), O.Default(None))
+    /** Database column state SqlType(VARCHAR), Length(255,true), Default(None) */
+    val state: Rep[Option[String]] = column[Option[String]]("state", O.Length(255,varying=true), O.Default(None))
+    /** Database column last_problem SqlType(MEDIUMTEXT), Length(16777215,true), Default(None) */
+    val lastProblem: Rep[Option[String]] = column[Option[String]]("last_problem", O.Length(16777215,varying=true), O.Default(None))
+  }
+  /** Collection-like TableQuery object for table PlayEvolutions */
+  lazy val PlayEvolutions = new TableQuery(tag => new PlayEvolutions(tag))
+
   /** Entity class storing rows of table Precipitation
    *  @param precipitationId Database column precipitation_id SqlType(INT), AutoInc, PrimaryKey
    *  @param geographicLocationId Database column geographic_location_id SqlType(INT)
@@ -559,23 +596,23 @@ trait Tables {
   /** Collection-like TableQuery object for table Precipitation */
   lazy val Precipitation = new TableQuery(tag => new Precipitation(tag))
 
-  /** Entity class storing rows of table Resulttemplate
+  /** Entity class storing rows of table ResultTemplate
    *  @param resultTemplateId Database column result_template_id SqlType(INT), AutoInc, PrimaryKey
    *  @param templateId Database column template_id SqlType(INT)
    *  @param rank Database column rank SqlType(INT)
    *  @param result Database column result SqlType(ENUM), Length(7,false)
    *  @param location Database column location SqlType(ENUM), Length(4,false), Default(None) */
-  case class ResulttemplateRow(resultTemplateId: Int, templateId: Int, rank: Int, result: String, location: Option[String] = None)
-  /** GetResult implicit for fetching ResulttemplateRow objects using plain SQL queries */
-  implicit def GetResultResulttemplateRow(implicit e0: GR[Int], e1: GR[String], e2: GR[Option[String]]): GR[ResulttemplateRow] = GR{
+  case class ResultTemplateRow(resultTemplateId: Int, templateId: Int, rank: Int, result: String, location: Option[String] = None)
+  /** GetResult implicit for fetching ResultTemplateRow objects using plain SQL queries */
+  implicit def GetResultResultTemplateRow(implicit e0: GR[Int], e1: GR[String], e2: GR[Option[String]]): GR[ResultTemplateRow] = GR{
     prs => import prs._
-    ResulttemplateRow.tupled((<<[Int], <<[Int], <<[Int], <<[String], <<?[String]))
+    ResultTemplateRow.tupled((<<[Int], <<[Int], <<[Int], <<[String], <<?[String]))
   }
   /** Table description of table ResultTemplate. Objects of this class serve as prototypes for rows in queries. */
-  class Resulttemplate(_tableTag: Tag) extends profile.api.Table[ResulttemplateRow](_tableTag, Some("IblGame"), "ResultTemplate") {
-    def * = (resultTemplateId, templateId, rank, result, location) <> (ResulttemplateRow.tupled, ResulttemplateRow.unapply)
+  class ResultTemplate(_tableTag: Tag) extends profile.api.Table[ResultTemplateRow](_tableTag, Some("IblGame"), "ResultTemplate") {
+    def * = (resultTemplateId, templateId, rank, result, location) <> (ResultTemplateRow.tupled, ResultTemplateRow.unapply)
     /** Maps whole row to an option. Useful for outer joins. */
-    def ? = ((Rep.Some(resultTemplateId), Rep.Some(templateId), Rep.Some(rank), Rep.Some(result), location)).shaped.<>({r=>import r._; _1.map(_=> ResulttemplateRow.tupled((_1.get, _2.get, _3.get, _4.get, _5)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
+    def ? = ((Rep.Some(resultTemplateId), Rep.Some(templateId), Rep.Some(rank), Rep.Some(result), location)).shaped.<>({r=>import r._; _1.map(_=> ResultTemplateRow.tupled((_1.get, _2.get, _3.get, _4.get, _5)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
 
     /** Database column result_template_id SqlType(INT), AutoInc, PrimaryKey */
     val resultTemplateId: Rep[Int] = column[Int]("result_template_id", O.AutoInc, O.PrimaryKey)
@@ -591,8 +628,8 @@ trait Tables {
     /** Uniqueness Index over (templateId,rank) (database name slot) */
     val index1 = index("slot", (templateId, rank), unique=true)
   }
-  /** Collection-like TableQuery object for table Resulttemplate */
-  lazy val Resulttemplate = new TableQuery(tag => new Resulttemplate(tag))
+  /** Collection-like TableQuery object for table ResultTemplate */
+  lazy val ResultTemplate = new TableQuery(tag => new ResultTemplate(tag))
 
   /** Entity class storing rows of table Roster
    *  @param rosterId Database column roster_id SqlType(INT), AutoInc, PrimaryKey
@@ -704,10 +741,10 @@ trait Tables {
    *  @param lastName Database column last_name SqlType(VARCHAR), Length(200,true)
    *  @param passwordHash Database column password_hash SqlType(VARCHAR), Length(200,true)
    *  @param email Database column email SqlType(VARCHAR), Length(256,true)
-   *  @param confirmed Database column confirmed SqlType(BIT), Default(Some(false)) */
+   *  @param confirmed Database column confirmed SqlType(BIT), Default(false) */
   case class UserRow(userId: Int, firstName: String, lastName: String, passwordHash: String, email: String, confirmed: Boolean = false)
   /** GetResult implicit for fetching UserRow objects using plain SQL queries */
-  implicit def GetResultUserRow(implicit e0: GR[Int], e1: GR[String], e2: GR[Option[Boolean]]): GR[UserRow] = GR{
+  implicit def GetResultUserRow(implicit e0: GR[Int], e1: GR[String], e2: GR[Boolean]): GR[UserRow] = GR{
     prs => import prs._
     UserRow.tupled((<<[Int], <<[String], <<[String], <<[String], <<[String], <<[Boolean]))
   }
@@ -715,7 +752,7 @@ trait Tables {
   class User(_tableTag: Tag) extends profile.api.Table[UserRow](_tableTag, Some("IblGame"), "User") {
     def * = (userId, firstName, lastName, passwordHash, email, confirmed) <> (UserRow.tupled, UserRow.unapply)
     /** Maps whole row to an option. Useful for outer joins. */
-    def ? = ((Rep.Some(userId), Rep.Some(firstName), Rep.Some(lastName), Rep.Some(passwordHash), Rep.Some(email), confirmed)).shaped.<>({r=>import r._; _1.map(_=> UserRow.tupled((_1.get, _2.get, _3.get, _4.get, _5.get, _6)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
+    def ? = ((Rep.Some(userId), Rep.Some(firstName), Rep.Some(lastName), Rep.Some(passwordHash), Rep.Some(email), Rep.Some(confirmed))).shaped.<>({r=>import r._; _1.map(_=> UserRow.tupled((_1.get, _2.get, _3.get, _4.get, _5.get, _6.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
 
     /** Database column user_id SqlType(INT), AutoInc, PrimaryKey */
     val userId: Rep[Int] = column[Int]("user_id", O.AutoInc, O.PrimaryKey)
@@ -727,7 +764,7 @@ trait Tables {
     val passwordHash: Rep[String] = column[String]("password_hash", O.Length(200,varying=true))
     /** Database column email SqlType(VARCHAR), Length(256,true) */
     val email: Rep[String] = column[String]("email", O.Length(256,varying=true))
-    /** Database column confirmed SqlType(BIT), Default(Some(false)) */
+    /** Database column confirmed SqlType(BIT), Default(false) */
     val confirmed: Rep[Boolean] = column[Boolean]("confirmed", O.Default(false))
 
     /** Uniqueness Index over (email) (database name user_email) */
@@ -767,22 +804,22 @@ trait Tables {
   /** Collection-like TableQuery object for table UserConfirmation */
   lazy val UserConfirmation = new TableQuery(tag => new UserConfirmation(tag))
 
-  /** Entity class storing rows of table Wildrating
+  /** Entity class storing rows of table WildRating
    *  @param wildRatingId Database column wild_rating_id SqlType(INT), AutoInc, PrimaryKey
    *  @param playerId Database column player_id SqlType(INT)
    *  @param rating Database column rating SqlType(ENUM), Length(6,false)
    *  @param games Database column games SqlType(INT), Default(None) */
-  case class WildratingRow(wildRatingId: Int, playerId: Int, rating: String, games: Option[Int] = None)
-  /** GetResult implicit for fetching WildratingRow objects using plain SQL queries */
-  implicit def GetResultWildratingRow(implicit e0: GR[Int], e1: GR[String], e2: GR[Option[Int]]): GR[WildratingRow] = GR{
+  case class WildRatingRow(wildRatingId: Int, playerId: Int, rating: String, games: Option[Int] = None)
+  /** GetResult implicit for fetching WildRatingRow objects using plain SQL queries */
+  implicit def GetResultWildRatingRow(implicit e0: GR[Int], e1: GR[String], e2: GR[Option[Int]]): GR[WildRatingRow] = GR{
     prs => import prs._
-    WildratingRow.tupled((<<[Int], <<[Int], <<[String], <<?[Int]))
+    WildRatingRow.tupled((<<[Int], <<[Int], <<[String], <<?[Int]))
   }
   /** Table description of table WildRating. Objects of this class serve as prototypes for rows in queries. */
-  class Wildrating(_tableTag: Tag) extends profile.api.Table[WildratingRow](_tableTag, Some("IblGame"), "WildRating") {
-    def * = (wildRatingId, playerId, rating, games) <> (WildratingRow.tupled, WildratingRow.unapply)
+  class WildRating(_tableTag: Tag) extends profile.api.Table[WildRatingRow](_tableTag, Some("IblGame"), "WildRating") {
+    def * = (wildRatingId, playerId, rating, games) <> (WildRatingRow.tupled, WildRatingRow.unapply)
     /** Maps whole row to an option. Useful for outer joins. */
-    def ? = ((Rep.Some(wildRatingId), Rep.Some(playerId), Rep.Some(rating), games)).shaped.<>({r=>import r._; _1.map(_=> WildratingRow.tupled((_1.get, _2.get, _3.get, _4)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
+    def ? = ((Rep.Some(wildRatingId), Rep.Some(playerId), Rep.Some(rating), games)).shaped.<>({r=>import r._; _1.map(_=> WildRatingRow.tupled((_1.get, _2.get, _3.get, _4)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
 
     /** Database column wild_rating_id SqlType(INT), AutoInc, PrimaryKey */
     val wildRatingId: Rep[Int] = column[Int]("wild_rating_id", O.AutoInc, O.PrimaryKey)
@@ -796,8 +833,8 @@ trait Tables {
     /** Uniqueness Index over (playerId,rating) (database name player_rating) */
     val index1 = index("player_rating", (playerId, rating), unique=true)
   }
-  /** Collection-like TableQuery object for table Wildrating */
-  lazy val Wildrating = new TableQuery(tag => new Wildrating(tag))
+  /** Collection-like TableQuery object for table WildRating */
+  lazy val WildRating = new TableQuery(tag => new WildRating(tag))
 
   /** Entity class storing rows of table Wind
    *  @param windId Database column wind_id SqlType(INT), AutoInc, PrimaryKey
