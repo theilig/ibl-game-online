@@ -11,7 +11,7 @@ CREATE TABLE Game
     KEY road_manager (road_manager),
     KEY home_manager (home_manager)
 );
--- !Down
+-- !Downs
 DROP TABLE Game;
 CREATE TABLE Game (
                       game_id INTEGER PRIMARY KEY AUTO_INCREMENT,

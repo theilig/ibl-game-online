@@ -1,0 +1,20 @@
+{
+  "teams": {
+    "road": {
+      "city": "Boston",
+      "abbrev": "Bos",
+      "mascot": "Red Sox"
+    },
+    "home": {
+      "city": "Toronto",
+      "abbrev": "Tor",
+      "mascot": "Blue Jays"
+    },
+  },
+  "inning": {
+    "half": "Top",
+    "number": "1",
+    "outs": 0,
+    "runners": []
+  }
+}
