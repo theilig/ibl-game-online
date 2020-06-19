@@ -23,7 +23,7 @@ class GameDao @Inject() (protected val dbConfigProvider: DatabaseConfigProvider)
       val allGames = list.map(game => {
         GameListItem(1, "Uo", "Tim", "Tim")
       })
-      GameList(userName, allGames.toList)
+      GameList(allGames.toList)
     })
   }
 }

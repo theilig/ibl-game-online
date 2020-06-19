@@ -6,10 +6,11 @@ import {Redirect} from "react-router";
 
 function GameList() {
     const { authTokens, setAuthTokens } = useAuth();
-    const { gameList, setGameList } = useState([]);
-    const { lastError, setLastError } = useState( "" );
+    const [ gameList, setGameList ] = useState([]);
+    const [ lastError, setLastError ] = useState( "" );
     function logOut() {
         setAuthTokens();
+        setLastError("Logged out");
     }
 
     const updateGames = () => {
@@ -20,7 +21,7 @@ function GameList() {
                 'Authorization': 'Bearer ' + authTokens.token
             }
         }).then(result => {
-            setGameList(result.data);
+            setGameList(result.games);
         }).catch(() => {
             setLastError("Could not retrieve games");
         });

@@ -69,13 +69,16 @@ class UserDao @Inject() (
     db.run(UserConfirmations.filter(_.token === token.token).result.headOption)
   }
 
-  def confirm(confirmationToken: ConfirmationToken): Future[Option[String]] = {
-    findUserForConfirmationToken(confirmationToken).map {
+  def confirm(confirmationToken: ConfirmationToken): Future[Option[(Tables.UserRow, String)]] = {
+    findUserForConfirmationToken(confirmationToken).flatMap {
       case Some(row) =>
         db.run(UserConfirmations.filter(_.userConfirmationId === row.userConfirmationId).delete)
         db.run(Users.filter(_.userId === row.userId).map(_.confirmed).update(true))
-        Some(jwt.createToken(row.userId))
-      case None => None
+        findById(row.userId).map({
+          case Some(userRow) => Some(userRow, jwt.createToken(userRow.userId))
+          case None => None
+        })
+      case None => Future.successful(None)
     }
   }
 

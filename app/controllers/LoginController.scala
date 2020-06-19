@@ -28,7 +28,7 @@ class LoginController @Inject()(
       userDao.findByEmail(loginAttempt.email).flatMap {
         case Some(userRow) if userRow.confirmed => Future.successful(
           userDao.login(loginAttempt, userRow).map(token => {
-            Ok(Json.parse(s"""{"token": "$token"}"""))
+            Ok(Json.toJson(models.Authentication(models.User(userRow), token)))
           }).getOrElse(BadRequest("Unable to validate user or password"))
         )
         case Some(userRow) =>
@@ -82,7 +82,7 @@ class LoginController @Inject()(
     try {
       val token = request.body.asJson.get.as[ConfirmationToken]
       userDao.confirm(token).map({
-        case Some(token) => Ok(Json.parse(s"""{"token": "$token"}"""))
+        case Some((userRow, jwtToken)) => Ok(Json.toJson(models.Authentication(models.User(userRow), jwtToken)))
         case None => BadRequest("Invalid Token")
       })
     } catch {
