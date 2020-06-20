@@ -3,13 +3,17 @@
     "road": {
       "city": "Boston",
       "abbrev": "Bos",
-      "mascot": "Red Sox"
+      "mascot": "Red Sox",
+      "icon": "https://a1.espncdn.com/combiner/i?img=/i/teamlogos/mlb/500/scoreboard/bos.png&h=70&w=70",
+      "score": 0
     },
     "home": {
       "city": "Toronto",
       "abbrev": "Tor",
-      "mascot": "Blue Jays"
-    },
+      "mascot": "Blue Jays",
+      "icon": "https://a1.espncdn.com/combiner/i?img=/i/teamlogos/mlb/500/scoreboard/tor.png&h=70&w=70",
+      "score": 0
+    }
   },
   "inning": {
     "half": "Top",

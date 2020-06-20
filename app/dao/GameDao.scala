@@ -14,16 +14,16 @@ class GameDao @Inject() (protected val dbConfigProvider: DatabaseConfigProvider)
 
   private val Games = TableQuery[Tables.Game]
 
-  private val Teams = TableQuery[Tables.Team]
+  private val Users = TableQuery[Tables.User]
 
-  private val Players = TableQuery[Tables.Player]
-
-  def gameList(userName: String): Future[GameList] = {
-    db.run(Games.result).map(list => {
-      val allGames = list.map(game => {
-        GameListItem(1, "Uo", "Tim", "Tim")
-      })
-      GameList(allGames.toList)
-    })
+  def gameList: Future[GameList] = {
+    val allGames = for {
+      ((game, roadManager), homeManager) <- (Games join Users on (_.roadManager === _.userId)) join Users on (_._1.homeManager === _.userId)
+    } yield (game, roadManager.firstName, homeManager.firstName)
+    db.run(allGames.result).map { list =>
+        list.map {
+          case (gameRow, road, home) => GameListItem(gameRow, road, home)
+        }
+    }.map(x => GameList(x.toList))
   }
 }

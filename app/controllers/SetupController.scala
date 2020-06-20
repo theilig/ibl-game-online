@@ -15,7 +15,7 @@ class SetupController @Inject()(
                                (implicit executionContext: ExecutionContext)
     extends AbstractController(cc) {
   def showGameList(): Action[AnyContent] = authenticatedAction.async { implicit request: UserRequest[AnyContent] =>
-    gameDao.gameList(request.user.firstName).map(list => Ok(Json.toJson(list)))
+    gameDao.gameList.map(list => Ok(Json.toJson(list)))
   }
 
   def newGame(): Action[AnyContent] = ???
