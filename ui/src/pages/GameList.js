@@ -19,40 +19,49 @@ function GameList() {
     const { authTokens, setAuthTokens } = useAuth();
     const [ gameList, setGameList ] = useState({games:[]});
     const [ lastError, setLastError ] = useState( "" );
+    const [ selectedGame, setSelectedGame ] = useState( 0 )
     function logOut() {
         setAuthTokens();
         setLastError("Logged out");
     }
 
-    const updateGames = () => {
-        axios("/api/games", {
-            method: "get",
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Authorization': 'Bearer ' + authTokens.token
-            }
-        }).then(result => {
-            setGameList(result.data);
-        }).catch(() => {
-            setLastError("Could not retrieve games");
-        });
+    function selectGame(gameId) {
+        setSelectedGame(gameId);
     }
 
     useEffect(() => {
-        const tick = setInterval(() => {
-            updateGames()
-        }, 60000)
+        const fetchData = async () => {
+            await axios("/api/games", {
+                method: "get",
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Authorization': 'Bearer ' + authTokens.token
+                }
+            }).then(result => {
+                setGameList(result.data);
+            }).catch(() => {
+                setLastError("Could not retrieve games");
+            });
+        };
+        fetchData()
+        const tick = setInterval(fetchData, 60000)
         return (() => clearInterval(tick))
-    })
+    }, [authTokens.token])
 
     if (lastError) {
         return (<Redirect to="/login" />);
     }
+
+    if (selectedGame > 0) {
+        let location = "/game/" + selectedGame;
+        return (<Redirect push to={location} />);
+    }
     return (
         <div>
+            <h2>Current Games</h2>
             <GameListBlock>
                 {gameList && gameList.games.map((game) => (
-                    <GameBlock key={game.id}><GameListItem game={game} /></GameBlock>
+                    <GameBlock key={game.gameId} onClick={() => {setSelectedGame(game.gameId)}}><GameListItem game={game} /></GameBlock>
                 ))}
             </GameListBlock>
             <Button onClick={logOut}> Log out</Button>
