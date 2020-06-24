@@ -62,7 +62,6 @@ function GameList() {
                 ))}
             </GameListBlock>
             <Button onClick={logOut}> Log out</Button>
-            <DiceRoll gameId={1} numberOfDice={3} />
         </div>
     )
 }
