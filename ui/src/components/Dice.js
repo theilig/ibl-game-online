@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {Component, useEffect, useState} from "react";
 
 import styled from "styled-components";
 
@@ -10,26 +10,50 @@ const Die = styled.div`
     color: 'white';
 `;
 
-function Dice(props) {
-    const sides = 10;
-    const rollingLength = 500;
-    const [ randomNumber, setRandom ] = useState(Math.floor(Math.random() * sides))
-    const [ result ] = useState(props.result)
-    const [ rolling, setRolling ] = useState(rollingLength)
+const sides = 10;
 
-    useEffect(() => {
-        const tick = setInterval(() => {
-            setRandom(Math.floor(Math.random() * sides));
-            setRolling(rolling - 100);
-        }, 100)
-        return(() => clearInterval(tick))
-    })
-    if (rolling > 0 || result === undefined) {
-        return (<Die>{randomNumber}</Die>)
+class Dice extends Component {
+    constructor(props) {
+        const rollingLength = 500;
+        super(props);
+        this.state = {
+            random: Math.floor(Math.random() * sides),
+            result: props.result,
+            rollingTime: rollingLength
+        }
     }
-    return (
-        <Die>{result}</Die>
-    )
+
+    setResult = (result) => {
+        this.setState({result: result})
+    }
+
+    componentDidMount() {
+        const tick = setInterval(() => {
+            this.setState({
+                random: Math.floor(Math.random() * sides),
+                rollingTime: this.state.rollingTime - 100
+            })
+        }, 100);
+        this.setState({tick: tick})
+    }
+
+    componentWillUnmount() {
+        if (this.state.tick) {
+            clearInterval(this.state.tick)
+        }
+    }
+
+    render() {
+        if (this.state.rollingTime > 0 || this.state.result === undefined) {
+            return (
+                <Die>{this.state.random}</Die>
+            )
+        } else {
+            return (
+                <Die>{this.state.result}</Die>
+            )
+        }
+    }
 }
 
 export default Dice;
