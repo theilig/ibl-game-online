@@ -6,7 +6,6 @@ import {Redirect} from "react-router";
 import GameListItem from "../components/GameListItem";
 import styled from "styled-components";
 import DiceRoll from "../components/DiceRoll";
-import DR from "../components/DR";
 
 const GameListBlock = styled.ul`
     list-style-type: none;
