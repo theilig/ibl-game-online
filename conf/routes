@@ -11,4 +11,5 @@ POST    /api/signup                 controllers.LoginController.processSignupAtt
 POST    /api/confirm                controllers.LoginController.processConfirmation
 POST    /api/logout                 controllers.AuthenticatedController.logout
 GET     /api/games                  controllers.SetupController.showGameList
+POST    /api/roll                   controllers.GameController.roll
 GET     /assets/*file               controllers.FrontendController.assetOrDefault(file)

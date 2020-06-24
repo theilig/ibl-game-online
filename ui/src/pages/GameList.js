@@ -5,6 +5,8 @@ import axios from 'axios';
 import {Redirect} from "react-router";
 import GameListItem from "../components/GameListItem";
 import styled from "styled-components";
+import DiceRoll from "../components/DiceRoll";
+import DR from "../components/DR";
 
 const GameListBlock = styled.ul`
     list-style-type: none;
@@ -23,10 +25,6 @@ function GameList() {
     function logOut() {
         setAuthTokens();
         setLastError("Logged out");
-    }
-
-    function selectGame(gameId) {
-        setSelectedGame(gameId);
     }
 
     useEffect(() => {
@@ -65,6 +63,7 @@ function GameList() {
                 ))}
             </GameListBlock>
             <Button onClick={logOut}> Log out</Button>
+            <DiceRoll gameId={1} numberOfDice={3} />
         </div>
     )
 }
