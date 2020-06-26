@@ -12,4 +12,5 @@ POST    /api/confirm                controllers.LoginController.processConfirmat
 POST    /api/logout                 controllers.AuthenticatedController.logout
 GET     /api/games                  controllers.SetupController.showGameList
 POST    /api/roll                   controllers.GameController.roll
+GET     /api/teamData               controllers.SetupController.teamData
 GET     /assets/*file               controllers.FrontendController.assetOrDefault(file)

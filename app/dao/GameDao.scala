@@ -1,8 +1,8 @@
 package dao
 
 import javax.inject.Inject
+import models.GameListItem
 import models.schema.Tables
-import models.{GameList, GameListItem}
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import slick.jdbc.JdbcProfile
 
@@ -16,7 +16,7 @@ class GameDao @Inject() (protected val dbConfigProvider: DatabaseConfigProvider)
 
   private val Users = TableQuery[Tables.User]
 
-  def gameList: Future[GameList] = {
+  def gameList: Future[List[GameListItem]] = {
     val allGames = for {
       ((game, roadManager), homeManager) <- (Games join Users on (_.roadManager === _.userId)) join Users on (_._1.homeManager === _.userId)
     } yield (game, roadManager.firstName, homeManager.firstName)
@@ -24,6 +24,6 @@ class GameDao @Inject() (protected val dbConfigProvider: DatabaseConfigProvider)
         list.map {
           case (gameRow, road, home) => GameListItem(gameRow, road, home)
         }
-    }.map(x => GameList(x.toList))
+    }.map(x => x.toList)
   }
 }
