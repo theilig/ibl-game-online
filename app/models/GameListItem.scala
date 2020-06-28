@@ -12,7 +12,6 @@ object GameListItem {
   implicit val gameListItemFormat: OFormat[GameListItem] = Json.format[GameListItem]
   implicit val gameListItemWrites: OWrites[GameListItem] = Json.writes[GameListItem]
 
-
   def apply(gameRow: GameRow, roadManager: String, homeManager: String): GameListItem = {
     def projection(gameState: JsValue): JsObject = {
       def teamInfo(team: JsValue, manager: String): JsObject = {

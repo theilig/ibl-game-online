@@ -15,7 +15,7 @@
     "styled-components": "^5.1.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts start --no-cache",
     "build": "rimraf ../public && react-scripts build && ncp build ../public && rimraf build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
