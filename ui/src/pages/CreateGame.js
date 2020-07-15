@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from "../context/auth";
 import styled from "styled-components";
@@ -153,7 +153,7 @@ function CreateGame(props) {
             })
         };
         fetchData();
-    }, [])
+    }, [authTokens.token])
 
 
     if (selectedGame > 0) {
@@ -191,8 +191,15 @@ function CreateGame(props) {
                     </PropertiesRow>
                     <PropertiesRow>
                         <PropertiesLabel>Region:</PropertiesLabel>
-                        <GeoLocationPicker name="geo" size="1">
-                            {geos.map((geo) => "<option value=\"" + geo.geoId + "\">" + geo.name + "</option>")}
+                        <GeoLocationPicker name="geo" size="1" onChange={(e) => setGeoId(e.target.key)}>
+                            <option key={0} />
+                            {geos.map((geo) => {
+                                if (geo.geoId === geoId) {
+                                    return (<option selected key={geo.geoId}>{geo.name}</option>)
+                                } else {
+                                    return (<option key={geo.geoId}>{geo.name}</option>)
+                                }
+                            })}
                         </GeoLocationPicker>
                     </PropertiesRow>
                     <PropertiesRow>

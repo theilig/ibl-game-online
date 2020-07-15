@@ -13,6 +13,15 @@ object Inning {
     new Inning(Top, 1)
   }
 
+  implicit val inningReads: Reads[Inning] = (json: JsValue) => {
+    val half = (json \ "half").as[String] match {
+      case "Top" => Top
+      case "Bottom" => Bottom
+    }
+    val number = (json \ "number").as[Int]
+    JsSuccess(Inning(half, number))
+  }
+
   implicit val inningFormat: Writes[Inning] = (inning: Inning) => JsObject(
     Seq(
       "half" -> JsString(inning.half.toString),

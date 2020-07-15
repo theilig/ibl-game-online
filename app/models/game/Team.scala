@@ -1,13 +1,14 @@
 package models.game
 import models.schema.Tables.TeamRow
 import play.api.libs.json.{Json, OFormat}
-case class Team(city: String, abbrev: String, mascot: String, icon: String, score: Int)
+case class Team(managerId: Int, city: String, abbrev: String, mascot: String, icon: String, score: Int)
 
 object Team {
   implicit val teamFormat: OFormat[Team] = Json.format[Team]
 
-  def apply(row: TeamRow): Team = {
+  def apply(row: TeamRow, managerId: Int): Team = {
     new Team(
+      managerId,
       row.city,
       row.abbrev,
       row.nickname,

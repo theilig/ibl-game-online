@@ -1,17 +1,31 @@
 package models.game
 
-import models.schema.Tables.{GeographicLocationRow, ParkRow, TeamRow}
-import play.api.libs.json.{JsObject, JsString, Json, Writes}
+import models.schema.Tables.{GameRow, GeographicLocationRow, ParkRow, TeamRow}
+import play.api.libs.functional.syntax._
+import play.api.libs.json._
 
-sealed trait GameStage
-case object DetermineTemperature extends GameStage
-case object ChoosingPitchers extends GameStage
+import scala.concurrent.ExecutionContext
 
 case class TeamPair(road: Team, home: Team)
 
-case class State(teams: TeamPair, park: Park, inning: Inning, stage: GameStage)
+object TeamPair {
+  implicit val teamPairReads: Reads[TeamPair] = (
+    (JsPath \ "road").read[Team] and
+      (JsPath \ "home").read[Team]
+    )(TeamPair.apply _)
+}
+case class State(teams: TeamPair, park: Park, inning: Inning, stage: String)
 
 object State {
+  implicit val stateReads: Reads[State] = (json: JsValue) => {
+    JsSuccess(State(
+      (json \ "teams").as[TeamPair],
+      (json \ "park").as[Park],
+      (json \ "inning").as[Inning],
+      (json \ "stage").as[String]
+    ))
+  }
+
   implicit val stateFormat: Writes[State] = (state: State) => JsObject(
     Seq(
       "teams" -> JsObject(
@@ -22,24 +36,38 @@ object State {
       ),
       "park" -> Json.toJson(state.park),
       "inning" -> Json.toJson(state.inning),
-      "stage" -> JsString(state.stage.toString)
+      "stage" -> JsString(state.stage)
     )
   )
 
-  def apply(roadRow: TeamRow, homeRow: TeamRow, parkRow: ParkRow, geoRow: GeographicLocationRow, month: Month, timeOfDay: TimeOfDay): State = {
-    val state = new State(TeamPair(
-      Team(roadRow),
-      Team(homeRow)),
+  def apply(
+             managerId: Int,
+             roadRow: TeamRow,
+             homeRow: TeamRow,
+             parkRow: ParkRow,
+             geoRow: GeographicLocationRow,
+             month: Month,
+             timeOfDay: TimeOfDay
+           )(implicit executionContext: ExecutionContext): State = {
+    val state = new State(
+      TeamPair(
+        Team(roadRow, managerId),
+        Team(homeRow, managerId)
+      ),
       Park(parkRow, geoRow, month, timeOfDay),
       Inning(),
-      DetermineTemperature
+      "DetermineTemperature"
     )
     if (geoRow.name == "Dome") {
       // for domes we don't need weather effects rolls
-      val newPark = state.park.copy(temperature = Cool, cloudCover = Roof, precipitation = None, wind = NoWind)
-      state.copy(park = newPark, stage = ChoosingPitchers)
+      val newPark = state.park.copy(temperature = Cool(None), cloudCover = Roof, precipitation = NoPrecipitation, wind = NoWind)
+      state.copy(park = newPark, stage = "ChoosingPitchers")
     } else {
       state
     }
+  }
+
+  def apply(gameRow: GameRow): State = {
+    Json.parse(gameRow.state.get).as[State]
   }
 }

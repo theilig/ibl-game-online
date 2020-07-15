@@ -9,9 +9,9 @@ GET     /                           controllers.FrontendController.index
 POST    /api/login                  controllers.LoginController.processLoginAttempt
 POST    /api/signup                 controllers.LoginController.processSignupAttempt
 POST    /api/confirm                controllers.LoginController.processConfirmation
-POST    /api/logout                 controllers.AuthenticatedController.logout
 GET     /api/games                  controllers.SetupController.showGameList
-POST    /api/roll                   controllers.GameController.roll
+GET     /api/game/:resource         controllers.GameController.getGame(resource: String)
+POST    /api/game/:resource         controllers.GameController.setGame(resource: String)
 GET     /api/teamData               controllers.SetupController.teamData
 POST    /api/createGame             controllers.SetupController.newGame
 GET     /assets/*file               controllers.FrontendController.assetOrDefault(file)

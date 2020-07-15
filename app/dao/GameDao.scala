@@ -38,4 +38,9 @@ class GameDao @Inject() (protected val dbConfigProvider: DatabaseConfigProvider)
       row
     })
   }
+
+  def findById(gameId: Int): Future[Option[Tables.GameRow]] = {
+    db.run(Games.filter(_.gameId === gameId).result.headOption)
+  }
+
 }

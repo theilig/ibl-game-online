@@ -7,6 +7,7 @@ import com.nimbusds.jose.{JWSAlgorithm, JWSHeader}
 import com.nimbusds.jwt.{JWTClaimsSet, SignedJWT}
 import javax.inject.Inject
 import play.api.Configuration
+import play.api.mvc.Request
 
 import scala.concurrent.duration.{FiniteDuration, HOURS}
 import scala.util.Try
@@ -15,6 +16,7 @@ class Jwt @Inject() (config: Configuration) {
   private val JwtSecretKey = config.get[String]("tokenSecret")
   private val tokenDuration = FiniteDuration(config.get[Int]("tokenDurationInHours"), HOURS)
   private val issuer = "https://iblgame.heilig.com"
+
   def createToken(userId: Int): String = {
     val signer = new MACSigner(JwtSecretKey)
     val claimsSet = new JWTClaimsSet.Builder().
@@ -27,7 +29,7 @@ class Jwt @Inject() (config: Configuration) {
     signedJWT.serialize()
   }
 
-  def decodePayload(token: String): Option[Int] = {
+  private def decodePayload(token: String): Option[Int] = {
     Try({
       val signedJWT = SignedJWT.parse(token)
       val verifier = new MACVerifier(JwtSecretKey)
@@ -44,5 +46,16 @@ class Jwt @Inject() (config: Configuration) {
     }).recover({
       case _: Throwable => None
     }).get
+  }
+
+  def getUserId(request: Request[Any]): Option[Int] = {
+    val HeaderTokenRegex = """Bearer\s+(.+?)""".r
+
+    val authHeader = request.headers.get("Authorization").getOrElse("")
+    val jwtToken = authHeader match {
+      case HeaderTokenRegex(token) => token
+      case _ => ""
+    }
+    decodePayload(jwtToken)
   }
 }

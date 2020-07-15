@@ -7,6 +7,7 @@ import Confirm from './pages/Confirm'
 import { AuthContext } from "./context/auth";
 import PrivateRoute from "./PrivateRoute";
 import CreateGame from "./pages/CreateGame"
+import Game from "./pages/Game"
 
 function App(props) {
     let existingTokens = localStorage.getItem("tokens");
@@ -32,6 +33,7 @@ function App(props) {
                     <Route path="/signup" component={Signup} />
                     <Route path="/confirm/:token" component={Confirm} />
                     <Route path="/createGame" component={CreateGame} />
+                    <Route path="/game/:gameId" component={Game} />
                 </div>
             </Router>
         </AuthContext.Provider>

@@ -35,12 +35,13 @@ class SetupController @Inject()(
         park <- eventualPark
         geo <- eventualGeoLocation
       } yield State(
+        request.user.userId,
         roadTeam.get,
         homeTeam.get,
         park.get,
         geo.get,
-        Month.fromString(gameCreation.month),
-        TimeOfDay.fromString(gameCreation.tod)
+        Month(gameCreation.month),
+        TimeOfDay(gameCreation.tod)
       )).flatMap(state => {
         gameDao.insertGame(currentUser, state)
       }).map(row => Ok(Json.toJson(models.GameListItem(row, currentUser.firstName, currentUser.firstName))))

@@ -4,6 +4,7 @@ import { useAuth } from "../context/auth";
 import Dice from "./Dice";
 
 import styled from "styled-components";
+import {useGameState} from "../context/GameState";
 
 const DiceBlock = styled.div`
     display: flex;
@@ -11,34 +12,39 @@ const DiceBlock = styled.div`
 
 function DiceRoll(props) {
     const { authTokens } = useAuth();
-    const [ gameId ] = useState(props.gameId);
+    const gameId = props.gameId;
     const [ numberOfDice ] = useState(props.numberOfDice);
-    const [ setLastError ] = useState("");
+    const { gameState, setGameState } = useGameState()
+
+    const rollerId = props.rollerId;
     const retryTimeout = 1000;
     let diceRefs = []
-    useEffect(() => {
-        const fetchRoll = async () => {
-            await axios("api/roll", {
-                method: "post",
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'Authorization': 'Bearer ' + authTokens.token
-                },
-                data: {
-                    gameId,
-                    numberOfDice
-                }
-            }).then(result => {
+    const fetchRoll = async () => {
+        const method = (authTokens.user.userId === rollerId) ? "post" : "get"
+        await axios("/api/game/roll", {
+            method: method,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Authorization': 'Bearer ' + authTokens.token
+            },
+            params: {
+                gameId: gameId
+            },
+            data: {
+                gameId: parseInt(gameId),
+                numberOfDice: numberOfDice
+            }
+        }).then(result => {
+            if (result.data) {
                 for (let i = 0; i < numberOfDice; i++) {
-                    diceRefs[i].setResult(result.data[i])
+                    diceRefs[i].setResult(result.data.roll[i])
                 }
-            }).catch(() => {
-                setLastError("Roll failed, retrying");
-                setTimeout(fetchRoll, retryTimeout)
-            })
-        };
-        fetchRoll();
-    }, [authTokens.token, diceRefs, gameId, numberOfDice])
+                setGameState(result.data.state)
+            }
+        }).catch(() => {
+            setTimeout(fetchRoll, retryTimeout)
+        })
+    };
 
     let dice = []
     for (let i = 0; i < props.numberOfDice; i++) {
@@ -50,7 +56,7 @@ function DiceRoll(props) {
         )
     }
 
-    return <DiceBlock>{dice}</DiceBlock>
+    return <DiceBlock onClick={fetchRoll}>{dice}</DiceBlock>
 }
 
 export default DiceRoll;
